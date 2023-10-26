@@ -9,7 +9,6 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.net.URI
 
 object DataBaseFactory {
 
@@ -26,17 +25,17 @@ object DataBaseFactory {
         val config = HikariConfig()
 
         config.driverClassName = System.getenv("JDBC_DRIVER")
-        //config.jdbcUrl = System.getenv("DATABASE_URL_NEW")
+        config.jdbcUrl = System.getenv("DATABASE_URL_NEW")
         config.maximumPoolSize = 3
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
 
-        val uri = URI(System.getenv("DATABASE_URL_NEW"))
-        val userName = uri.userInfo.split(":").toTypedArray()[0]
-        val password = uri.userInfo.split(":").toTypedArray()[1]
+        //val uri = URI(System.getenv("DATABASE_URL_NEW"))
+        //val userName = uri.userInfo.split(":").toTypedArray()[0]
+      //  val password = uri.userInfo.split(":").toTypedArray()[1]
 
-        config.jdbcUrl =
-            "jdbc:postgresql://" + uri.host + ":" + uri.port + uri.path + "sslmode=require" + "&user=$userName&password=$password"
+       // config.jdbcUrl =
+           // "jdbc:postgresql://" + uri.host + ":" + uri.port + uri.path + "sslmode=require" + "&user=$userName&password=$password"
 
         config.validate()
 
