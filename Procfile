@@ -1,1 +1,1 @@
-web: java -jar build/libs/com.example.recipe-store-pro-api-0.0.1.jar
+web: build/install/com.example.recipe-store-pro-api/bin/com.example.recipe-store-pro-api
