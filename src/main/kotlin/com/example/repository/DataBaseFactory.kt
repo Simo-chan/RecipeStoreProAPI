@@ -10,7 +10,6 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.net.URI
-import java.net.URLDecoder
 
 object DataBaseFactory {
 
@@ -33,8 +32,8 @@ object DataBaseFactory {
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
 
         val uri = URI(System.getenv("DATABASE_URL"))
-        val userName = URLDecoder.decode(uri.userInfo.split(":").toTypedArray()[0], "UTF-8")
-        val password = URLDecoder.decode(uri.userInfo.split(":").toTypedArray()[1], "UTF-8")
+        val userName = uri.userInfo.split(":").toTypedArray()[0]
+        val password = uri.userInfo.split(":").toTypedArray()[1]
 
         config.jdbcUrl =
             "jdbc:postgresql://" + uri.host + ":" + uri.port + uri.path + "?sslmode=require" + "&user=$userName&password=$password"
