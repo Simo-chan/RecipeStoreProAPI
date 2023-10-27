@@ -32,7 +32,7 @@ object DataBaseFactory {
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
 
-        val uri = URI(System.getenv("DATABASE_URL_NEW"))
+        val uri = URI(System.getenv("DATABASE_URL"))
         val userName = URLDecoder.decode(uri.userInfo.split(":").toTypedArray()[0], "UTF-8")
         val password = URLDecoder.decode(uri.userInfo.split(":").toTypedArray()[1], "UTF-8")
 
