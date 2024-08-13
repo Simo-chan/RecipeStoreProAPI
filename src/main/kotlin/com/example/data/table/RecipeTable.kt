@@ -10,6 +10,7 @@ object RecipeTable : Table() {
     val ingredients = text("ingredients")
     val instructions = text("instructions")
     val date = long("date")
+    val isFavorite= bool("isFavorite")
 
     override val primaryKey: PrimaryKey = PrimaryKey(id)
 }

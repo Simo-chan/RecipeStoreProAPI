@@ -5,6 +5,6 @@ data class Recipe(
     val title: String,
     val ingredients: String,
     val instructions: String,
-    val date: Long
-
+    val date: Long,
+    val isFavorite: Boolean
 )
