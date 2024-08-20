@@ -42,7 +42,6 @@ class Repo {
     //  ========= RECIPES ==========
 
     suspend fun addRecipe(recipe: Recipe, email: String) {
-
         dbQuery {
             RecipeTable.insert { rt ->
                 rt[id] = recipe.id
@@ -51,7 +50,7 @@ class Repo {
                 rt[ingredients] = recipe.ingredients
                 rt[instructions] = recipe.instructions
                 rt[date] = recipe.date
-
+                rt[isFavorite] = recipe.isFavorite
             }
         }
     }
@@ -63,7 +62,6 @@ class Repo {
     }
 
     suspend fun updateRecipe(recipe: Recipe, email: String) {
-
         dbQuery {
             RecipeTable.update(
                 where = { RecipeTable.userEmail.eq(email) and RecipeTable.id.eq(recipe.id) }
@@ -72,6 +70,7 @@ class Repo {
                 rt[ingredients] = recipe.ingredients
                 rt[instructions] = recipe.instructions
                 rt[date] = recipe.date
+                rt[isFavorite] = recipe.isFavorite
             }
         }
     }
@@ -94,7 +93,8 @@ class Repo {
             title = row[RecipeTable.title],
             ingredients = row[RecipeTable.ingredients],
             instructions = row[RecipeTable.instructions],
-            date = row[RecipeTable.date]
+            date = row[RecipeTable.date],
+            isFavorite = row[RecipeTable.isFavorite]
         )
     }
 

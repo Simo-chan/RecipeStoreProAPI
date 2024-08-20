@@ -90,7 +90,6 @@ fun Route.recipeRoutes(
             }
 
             try {
-
                 val email = call.principal<User>()!!.email
                 db.deleteRecipe(recipeId, email)
                 call.respond(HttpStatusCode.OK, SimpleResponse(true, RECIPE_DELETED))
