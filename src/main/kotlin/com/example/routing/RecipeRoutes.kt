@@ -15,6 +15,7 @@ const val RECIPES = "$API_VERSION/recipes"
 const val CREATE_RECIPE = "$RECIPES/create"
 const val UPDATE_RECIPE = "$RECIPES/update"
 const val DELETE_RECIPE = "$RECIPES/delete"
+const val UPDATE_FAV_STATUS = "$RECIPES/updateFavoriteStatus"
 
 private const val RECIPE_ADDED = "Recipe added"
 private const val RECIPE_UPDATED = "Recipe updated"
@@ -70,9 +71,34 @@ fun Route.recipeRoutes(
             }
 
             try {
-
                 val email = call.principal<User>()!!.email
                 db.updateRecipe(recipe, email)
+                call.respond(HttpStatusCode.OK, SimpleResponse(true, RECIPE_UPDATED))
+
+            } catch (e: Exception) {
+
+                call.respond(HttpStatusCode.Conflict, SimpleResponse(false, e.message ?: UNEXPECTED_PROBLEM))
+            }
+        }
+
+        post(UPDATE_FAV_STATUS) {
+            val favStatus = try {
+                call.receive<Boolean>()
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.BadRequest, SimpleResponse(false, MISSING_FIELDS))
+                return@post
+            }
+
+            val recipeId = try {
+                call.request.queryParameters["id"]!!
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.BadRequest, SimpleResponse(false, QUERY_PARAMS_MISSING))
+                return@post
+            }
+
+            try {
+                val email = call.principal<User>()!!.email
+                db.updateFavoriteStatus(recipeId, favStatus, email)
                 call.respond(HttpStatusCode.OK, SimpleResponse(true, RECIPE_UPDATED))
 
             } catch (e: Exception) {
