@@ -75,6 +75,16 @@ class Repo {
         }
     }
 
+    suspend fun updateFavoriteStatus(id: String, isFavorite1: Boolean, email: String) {
+        dbQuery {
+            RecipeTable.update(
+                where = { RecipeTable.userEmail.eq(email) and RecipeTable.id.eq(id) }
+            ) { rt ->
+                rt[isFavorite] = isFavorite1
+            }
+        }
+    }
+
     suspend fun deleteRecipe(id: String, email: String) {
         dbQuery {
             RecipeTable.deleteWhere {
@@ -97,5 +107,6 @@ class Repo {
             isFavorite = row[RecipeTable.isFavorite]
         )
     }
-
 }
+
+
